@@ -1,6 +1,6 @@
 #main.py
 from flask import Flask, jsonify, request
-from funciones import enviar_correo, enviar_correo_autentificacion, enviar_correo_reset_password
+from funciones import enviar_correo, enviar_correo_autentificacion, enviar_correo_reset_password, enviar_correo_cambio_email
 from flask_cors import CORS 
 
 
@@ -54,6 +54,25 @@ def reset_password():
     codigo = enviar_correo_reset_password(email)
 
     return jsonify({'mensaje': f'Código enviado a {email}', 'codigo': codigo})
+
+#Notificacion por cambio de correo
+@app.route('/notificar-cambio', methods=['POST'])
+def notificar_cambio_correo():
+    data = request.get_json()
+
+    print("datos recibidos", data)
+    old_email = data.get('old_email')
+    new_email = data.get('new_email')
+    username = data.get('username')
+    
+    if not old_email or not new_email or not username:
+        return jsonify({'error': 'Faltan campos requeridos (oldEmail, newEmail, username)'}), 400
+
+    try:
+        enviar_correo_cambio_email(old_email, new_email, username)
+        return jsonify({'mensaje': f'Correo de notificación enviado a {old_email}'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8001, debug=False)

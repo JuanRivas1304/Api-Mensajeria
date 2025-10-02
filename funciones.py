@@ -103,3 +103,29 @@ def enviar_correo_reset_password(email_receiver):
         smtp.sendmail(email_sender, email_receiver, em.as_string())
 
     return codigo_autentificacion_reset_password
+
+def enviar_correo_cambio_email(old_email, new_email, username):
+    load_dotenv()
+
+    email_sender = "juandiegomurillorivas2@gmail.com"
+    password = os.getenv("PASSWORD")
+
+    subject = "Notificación de cambio de correo en OdontoSalud"
+
+    # Usar plantilla personalizada (crear archivo luego)
+    template = env.get_template("notificacion_cambio_email.html")
+    body = template.render(username=username, new_email=new_email)
+
+    em = EmailMessage()
+    em["From"] = email_sender
+    em["To"] = old_email
+    em["Subject"] = subject
+    em.set_content(body, subtype='html')
+
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(email_sender, password)
+        smtp.sendmail(email_sender, old_email, em.as_string())
+
+    return True
