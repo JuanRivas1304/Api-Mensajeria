@@ -1,6 +1,6 @@
 #main.py
 from flask import Flask, jsonify, request
-from funciones import enviar_correo, enviar_correo_autentificacion, enviar_correo_reset_password, enviar_correo_cambio_email
+from funciones import enviar_correo, enviar_correo_autentificacion, enviar_correo_reset_password, enviar_correo_cambio_email, enviar_correo_nueva_cita,enviar_correo_cambio_cita, enviar_correo_cancelacion_cita
 from flask_cors import CORS 
 
 
@@ -73,6 +73,68 @@ def notificar_cambio_correo():
         return jsonify({'mensaje': f'Correo de notificación enviado a {old_email}'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+# Correo de confirmación de nueva cita
+@app.route('/nueva-cita', methods=['POST'])
+def correo_nueva_cita():
+    data = request.get_json()
+    email = data.get('email')
+    fecha_cita = data.get('fecha_cita')
+    hora_cita = data.get('hora_cita')
+    doctor = data.get('doctor')
+    servicio = data.get('servicio')
+
+    if not all([email, fecha_cita, hora_cita, doctor, servicio]):
+        return jsonify({'error': 'Faltan datos para enviar el correo de cita'}), 400
+
+    try:
+        enviar_correo_nueva_cita(email, fecha_cita, hora_cita, doctor, servicio)
+        return jsonify({'mensaje': f'Correo de confirmación enviado a {email}'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# Correo por cambio de cita
+@app.route('/cambio-cita', methods=['POST'])
+def correo_cambio_cita():
+    data = request.get_json()
+    email = data.get('email')
+    fecha_anterior = data.get('fecha_anterior')
+    hora_anterior = data.get('hora_anterior')
+    fecha_nueva = data.get('fecha_nueva')
+    hora_nueva = data.get('hora_nueva')
+    doctor = data.get('doctor')
+    servicio = data.get('servicio')
+
+    if not all([email, fecha_anterior, hora_anterior, fecha_nueva, hora_nueva, doctor, servicio]):
+        return jsonify({'error': 'Faltan datos para el correo de cambio de cita'}), 400
+
+    try:
+        enviar_correo_cambio_cita(email, fecha_anterior, hora_anterior, fecha_nueva, hora_nueva, doctor, servicio)
+        return jsonify({'mensaje': f'Correo de cambio de cita enviado a {email}'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# Correo por cancelación de cita
+@app.route('/cancelacion-cita', methods=['POST'])
+def correo_cancelacion_cita():
+    data = request.get_json()
+    email = data.get('email')
+    fecha_cita = data.get('fecha_cita')
+    hora_cita = data.get('hora_cita')
+    doctor = data.get('doctor')
+    servicio = data.get('servicio')
+
+    if not all([email, fecha_cita, hora_cita, doctor, servicio]):
+        return jsonify({'error': 'Faltan datos para el correo de cancelación'}), 400
+
+    try:
+        enviar_correo_cancelacion_cita(email, fecha_cita, hora_cita, doctor, servicio)
+        return jsonify({'mensaje': f'Correo de cancelación enviado a {email}'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8001, debug=False)

@@ -129,3 +129,94 @@ def enviar_correo_cambio_email(old_email, new_email, username):
         smtp.sendmail(email_sender, old_email, em.as_string())
 
     return True
+
+def enviar_correo_nueva_cita(email_receiver, fecha_cita, hora_cita, doctor, servicio):
+    """Enviar correo cuando un usuario reserva una cita"""
+    load_dotenv()
+    email_sender = "juandiegomurillorivas2@gmail.com"
+    password = os.getenv("PASSWORD")
+
+    subject = "Confirmación de cita en OdontoSalud"
+
+    template = env.get_template("nueva_cita.html")
+    body = template.render(
+        fecha_cita=fecha_cita,
+        hora_cita=hora_cita,
+        doctor=doctor,
+        servicio=servicio
+    )
+
+    em = EmailMessage()
+    em["From"] = email_sender
+    em["To"] = email_receiver
+    em["Subject"] = subject
+    em.set_content(body, subtype="html")
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(email_sender, password)
+        smtp.sendmail(email_sender, email_receiver, em.as_string())
+
+    return True
+
+
+def enviar_correo_cambio_cita(email_receiver, fecha_anterior, hora_anterior, fecha_nueva, hora_nueva, doctor, servicio):
+    """Enviar correo cuando un usuario cambia una cita"""
+    load_dotenv()
+    email_sender = "juandiegomurillorivas2@gmail.com"
+    password = os.getenv("PASSWORD")
+
+    subject = "Cambio de cita en OdontoSalud"
+
+    template = env.get_template("cambio_cita.html")
+    body = template.render(
+        fecha_anterior=fecha_anterior,
+        hora_anterior=hora_anterior,
+        fecha_nueva=fecha_nueva,
+        hora_nueva=hora_nueva,
+        doctor=doctor,
+        servicio=servicio
+    )
+
+    em = EmailMessage()
+    em["From"] = email_sender
+    em["To"] = email_receiver
+    em["Subject"] = subject
+    em.set_content(body, subtype="html")
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(email_sender, password)
+        smtp.sendmail(email_sender, email_receiver, em.as_string())
+
+    return True
+
+
+def enviar_correo_cancelacion_cita(email_receiver, fecha_cita, hora_cita, doctor, servicio):
+    """Enviar correo cuando un usuario cancela una cita"""
+    load_dotenv()
+    email_sender = "juandiegomurillorivas2@gmail.com"
+    password = os.getenv("PASSWORD")
+
+    subject = "Cancelación de cita en OdontoSalud"
+
+    template = env.get_template("cancelacion_cita.html")
+    body = template.render(
+        fecha_cita=fecha_cita,
+        hora_cita=hora_cita,
+        doctor=doctor,
+        servicio=servicio
+    )
+
+    em = EmailMessage()
+    em["From"] = email_sender
+    em["To"] = email_receiver
+    em["Subject"] = subject
+    em.set_content(body, subtype="html")
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(email_sender, password)
+        smtp.sendmail(email_sender, email_receiver, em.as_string())
+
+    return True
