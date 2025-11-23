@@ -16,7 +16,7 @@ env = Environment(loader=FileSystemLoader(os.path.join(BASE_DIR, 'templates_emai
 def enviar_correo(email_receiver):
     load_dotenv()
 
-    email_sender = "juandiegomurillorivas2@gmail.com"
+    email_sender = "mensajeria.python@gmail.com"
     password = os.getenv("PASSWORD")  # Asegúrarse de que PASSWORD esté configurado en el archivo .env
     
     subject = "Bienvenido a OdontoSalud"
@@ -47,7 +47,7 @@ def generar_codigo_autentificacion():
 def enviar_correo_autentificacion(email_receiver):
     load_dotenv()
 
-    email_sender = "juandiegomurillorivas2@gmail.com"
+    email_sender = "mensajeria.python@gmail.com"
     password = os.getenv("PASSWORD")
 
     #Genera el codigo de autentificacion
@@ -77,7 +77,7 @@ def enviar_correo_autentificacion(email_receiver):
 def enviar_correo_reset_password(email_receiver):
     load_dotenv()
 
-    email_sender = "juandiegomurillorivas2@gmail.com"
+    email_sender = "mensajeria.python@gmail.com"
     password = os.getenv("PASSWORD")
 
     #Genera el codigo de reestablecimiento
@@ -107,7 +107,7 @@ def enviar_correo_reset_password(email_receiver):
 def enviar_correo_cambio_email(old_email, new_email, username):
     load_dotenv()
 
-    email_sender = "juandiegomurillorivas2@gmail.com"
+    email_sender = "mensajeria.python@gmail.com"
     password = os.getenv("PASSWORD")
 
     subject = "Notificación de cambio de correo en OdontoSalud"
@@ -133,7 +133,7 @@ def enviar_correo_cambio_email(old_email, new_email, username):
 def enviar_correo_nueva_cita(email_receiver, fecha_cita, hora_cita, doctor, servicio):
     """Enviar correo cuando un usuario reserva una cita"""
     load_dotenv()
-    email_sender = "juandiegomurillorivas2@gmail.com"
+    email_sender = "mensajeria.python@gmail.com"
     password = os.getenv("PASSWORD")
 
     subject = "Confirmación de cita en OdontoSalud"
@@ -163,7 +163,7 @@ def enviar_correo_nueva_cita(email_receiver, fecha_cita, hora_cita, doctor, serv
 def enviar_correo_cambio_cita(email_receiver, fecha_anterior, hora_anterior, fecha_nueva, hora_nueva, doctor, servicio):
     """Enviar correo cuando un usuario cambia una cita"""
     load_dotenv()
-    email_sender = "juandiegomurillorivas2@gmail.com"
+    email_sender = "mensajeria.python@gmail.com"
     password = os.getenv("PASSWORD")
 
     subject = "Cambio de cita en OdontoSalud"
@@ -195,7 +195,7 @@ def enviar_correo_cambio_cita(email_receiver, fecha_anterior, hora_anterior, fec
 def enviar_correo_cancelacion_cita(email_receiver, fecha_cita, hora_cita, doctor, servicio):
     """Enviar correo cuando un usuario cancela una cita"""
     load_dotenv()
-    email_sender = "juandiegomurillorivas2@gmail.com"
+    email_sender = "mensajeria.python@gmail.com"
     password = os.getenv("PASSWORD")
 
     subject = "Cancelación de cita en OdontoSalud"

@@ -1,6 +1,6 @@
 ### Clonar el repositorio
 
-git clone https://github.com/JuanDiegoMurillo/Api-Mensajeria.git
+git clone https://github.com/JuanRivas1304/Api-Mensajeria.git
 
 ### Instalar dependencias
 
